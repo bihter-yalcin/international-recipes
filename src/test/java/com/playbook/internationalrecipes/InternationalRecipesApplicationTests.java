@@ -1,4 +1,4 @@
-package com.playbook.international.recipes;
+package com.playbook.internationalrecipes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

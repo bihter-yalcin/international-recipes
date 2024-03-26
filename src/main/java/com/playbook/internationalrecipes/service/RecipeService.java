@@ -1,4 +1,4 @@
-package service;
+package com.playbook.internationalrecipes.service;
 
 import org.springframework.stereotype.Service;
 

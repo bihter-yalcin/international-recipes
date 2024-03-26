@@ -1,6 +1,6 @@
-package config;
+package com.playbook.internationalrecipes.config;
 
-import model.preference.ConsumerPreferences;
+import com.playbook.internationalrecipes.model.preference.ConsumerPreferences;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,4 +1,4 @@
-package model.preference;
+package com.playbook.internationalrecipes.model.preference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

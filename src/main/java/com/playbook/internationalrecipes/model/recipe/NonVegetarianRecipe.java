@@ -1,4 +1,4 @@
-package model.recipe;
+package com.playbook.internationalrecipes.model.recipe;
 
 import lombok.Data;
 

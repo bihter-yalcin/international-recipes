@@ -1,4 +1,4 @@
-package com.playbook.international.recipes;
+package com.playbook.internationalrecipes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
