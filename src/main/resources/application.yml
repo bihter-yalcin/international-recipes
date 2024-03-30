@@ -1,0 +1,17 @@
+app:
+  postgresql:
+    url: jdbc:postgresql://localhost:5432/international-recipes
+    username: dbUser
+    password: password
+spring:
+ datasource:
+   jpa:
+     hibernate:
+       ddl-auto: update
+     show-sql: true
+
+
+server:
+  port: 8082
+
+
