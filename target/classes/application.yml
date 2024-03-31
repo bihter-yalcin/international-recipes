@@ -4,11 +4,15 @@ app:
     username: dbUser
     password: password
 spring:
+ sql:
+   init:
+     mode: always
  datasource:
    jpa:
      hibernate:
        ddl-auto: update
-     show-sql: true # You can set it to false in production
+     show-sql: true
+
 
 
 server:
