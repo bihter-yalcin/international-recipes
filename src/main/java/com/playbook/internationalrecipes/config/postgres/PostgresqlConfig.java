@@ -11,7 +11,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ConfigurationProperties(prefix = "app.postgresql.spring.datasource")
 public class PostgresqlConfig {
 
     private String url;

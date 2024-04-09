@@ -2,7 +2,9 @@ package com.playbook.internationalrecipes.repository;
 
 import com.playbook.internationalrecipes.model.recipe.Recipe;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class RecipeRepositoryImp implements RecipeRepository {
     private JdbcTemplate jdbcTemplate;
 
