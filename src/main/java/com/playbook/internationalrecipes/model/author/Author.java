@@ -1,5 +1,8 @@
 package com.playbook.internationalrecipes.model.author;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,15 +15,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "authors")
 public class Author {
 
-    private String id;
+    @Id
+    private UUID id;
 
     private String name;
 
-    public Author(String name) {
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
+    public static Author create(String name) {
+        Author author = new Author();
+        author.setId(UUID.randomUUID());
+        author.setName(name);
+        return author;
     }
 
 

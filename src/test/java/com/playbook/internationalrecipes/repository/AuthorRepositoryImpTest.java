@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -24,8 +26,9 @@ class AuthorRepositoryImpTest extends PostgresTestContainerInitializer {
 
     @Test
     void create() {
-        var author = Author.builder().id("1").name("William").build();
+        var id = UUID.randomUUID();
+        var author = Author.builder().id(id).name("William").build();
         authorRepositoryImp.create(author);
-        verify(jdbcTemplate).update(eq("INSERT INTO authors (id,name) VALUES (?,?)"), eq("1"), eq("William"));
+        verify(jdbcTemplate).update(eq("INSERT INTO authors (id,name) VALUES (?,?)"), eq(id), eq("William"));
     }
 }

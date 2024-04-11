@@ -2,10 +2,14 @@ package com.playbook.internationalrecipes.repository;
 
 
 import com.playbook.internationalrecipes.model.author.Author;
-import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+import java.util.UUID;
 
 
 public interface AuthorRepository {
 
-    public void create(Author author);
+    void create(Author author);
+
+    Optional<Author> findById(UUID id);
 }
