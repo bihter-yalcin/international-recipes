@@ -1,6 +1,6 @@
 # international-recipes API
  
-![IMG_0340.jpg](..%2FIMG_0340.jpg)
+![Orta IMG_0340.jpeg](..%2FOrta%20IMG_0340.jpeg)
 
 * A platform where everyone in the world can share their recipes 
 
