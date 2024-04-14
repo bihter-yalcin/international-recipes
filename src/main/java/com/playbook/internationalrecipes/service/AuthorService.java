@@ -21,7 +21,7 @@ public class AuthorService {
 
     public void createAuthor(String name) {
         try {
-            authorRepository.create(Author.create(name));
+            authorRepository.crateAuthor(Author.create(name));
         } catch (DuplicateKeyException e) {
             //TODO ADD CUSTOM EXCEPTION
             logger.error("ERROR: An author with the same name already exists!");

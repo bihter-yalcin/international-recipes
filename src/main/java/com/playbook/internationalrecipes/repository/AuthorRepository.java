@@ -3,13 +3,14 @@ package com.playbook.internationalrecipes.repository;
 
 import com.playbook.internationalrecipes.model.author.Author;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
 
 public interface AuthorRepository {
+    void crateAuthor(Author author);
 
-    void create(Author author);
+    Optional<Author> findById(Long id);
 
-    Optional<Author> findById(UUID id);
+    List<Author> getAuthors();
+
 }

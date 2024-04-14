@@ -4,10 +4,6 @@ app:
     username: dbUser
     password: password
 spring:
- sql:
-   init:
-     mode: always
- datasource:
    jpa:
      hibernate:
        ddl-auto: update

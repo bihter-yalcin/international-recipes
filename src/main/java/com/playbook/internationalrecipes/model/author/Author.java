@@ -1,14 +1,10 @@
 package com.playbook.internationalrecipes.model.author;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 
 @Data
@@ -20,13 +16,14 @@ import java.util.UUID;
 public class Author {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "author_id_seq")
+    private Long id;
 
     private String name;
 
+
     public static Author create(String name) {
         Author author = new Author();
-        author.setId(UUID.randomUUID());
         author.setName(name);
         return author;
     }
