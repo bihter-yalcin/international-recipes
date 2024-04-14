@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +26,4 @@ public class Author {
         author.setName(name);
         return author;
     }
-
-
 }

@@ -4,14 +4,12 @@ app:
     username: dbUser
     password: password
 spring:
+   config:
+     on-profiles: production
    jpa:
      hibernate:
        ddl-auto: update
      show-sql: true
 
-
-
 server:
   port: 8082
-
-

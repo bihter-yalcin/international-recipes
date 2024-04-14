@@ -7,6 +7,9 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class AuthorService {
 
@@ -21,11 +24,23 @@ public class AuthorService {
 
     public void createAuthor(String name) {
         try {
-            authorRepository.crateAuthor(Author.create(name));
+            authorRepository.createAuthor(Author.create(name));
         } catch (DuplicateKeyException e) {
             //TODO ADD CUSTOM EXCEPTION
             logger.error("ERROR: An author with the same name already exists!");
         }
+    }
+
+    public List<Author> getAllAuthors() {
+        return authorRepository.getAllAuthors();
+    }
+
+    public Optional<Author> getAuthor(Long id) {
+        return authorRepository.findById(id);
+    }
+
+    public void deleteAuthor(Long id) {
+        authorRepository.deleteAuthor(id);
     }
 
 }

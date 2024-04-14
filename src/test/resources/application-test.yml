@@ -1,6 +1,8 @@
 spring:
+  config:
+    on-profiles: test
   datasource:
-    url: jdbc:tc:postgresql:///testdb
+    url: jdbc:tc:postgresql:///test-db
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     username: testuser
     password: testpassword

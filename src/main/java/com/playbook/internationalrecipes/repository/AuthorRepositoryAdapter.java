@@ -16,7 +16,7 @@ public class AuthorRepositoryAdapter implements AuthorRepository {
     }
 
     @Override
-    public void crateAuthor(Author author) {
+    public void createAuthor(Author author) {
         authorRepository.save(author);
     }
 
@@ -26,7 +26,18 @@ public class AuthorRepositoryAdapter implements AuthorRepository {
     }
 
     @Override
-    public List<Author> getAuthors() {
-        return (List<Author>) authorRepository.findAll();
+    public List<Author> getAllAuthors() {
+        return authorRepository.findAll();
     }
+
+    @Override
+    public void updateAuthor(Author author) {
+        authorRepository.save(author);
+    }
+
+    @Override
+    public void deleteAuthor(Long id) {
+        authorRepository.deleteById(id);
+    }
+
 }

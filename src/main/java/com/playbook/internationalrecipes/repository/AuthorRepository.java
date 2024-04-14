@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthorRepository {
-    void crateAuthor(Author author);
+    void createAuthor(Author author);
 
     Optional<Author> findById(Long id);
 
-    List<Author> getAuthors();
+    List<Author> getAllAuthors();
+
+    void updateAuthor(Author author);
+
+    void deleteAuthor(Long id);
 
 }
