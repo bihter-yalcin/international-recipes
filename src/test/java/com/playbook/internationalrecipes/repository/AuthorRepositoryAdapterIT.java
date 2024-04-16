@@ -1,21 +1,23 @@
 package com.playbook.internationalrecipes.repository;
 
+
+import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
 import com.playbook.internationalrecipes.model.author.Author;
-import config.PostgresTestContainerInitializer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
 
-@SpringBootTest
-@Testcontainers
 @ActiveProfiles("test")
-class AuthorRepositoryAdapterIntegrationTest extends PostgresTestContainerInitializer {
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
 
     @Autowired
     AuthorRepositoryAdapter authorRepositoryAdapter;
@@ -37,7 +39,7 @@ class AuthorRepositoryAdapterIntegrationTest extends PostgresTestContainerInitia
         var author = Author.builder().name("Hello").build();
         authorRepositoryAdapter.createAuthor(author);
         List<Author> result = authorRepositoryAdapter.getAllAuthors();
-        var a =  result.get(0).getId();
+        var a = result.get(0).getId();
     }
 
     @Test

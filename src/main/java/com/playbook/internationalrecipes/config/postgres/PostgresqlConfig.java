@@ -18,9 +18,9 @@ public class PostgresqlConfig {
 
     @Autowired
     public PostgresqlConfig(
-            @Value("${app.postgresql.url}") String url,
-            @Value("${app.postgresql.username}") String username,
-            @Value("${app.postgresql.password}") String password) {
+            @Value("${spring.datasource.url}") String url,
+            @Value("${spring.datasource.username}") String username,
+            @Value("${spring.datasource.password}") String password) {
         this.url = url;
         this.username = username;
         this.password = password;

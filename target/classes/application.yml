@@ -1,15 +1,18 @@
-app:
-  postgresql:
+spring:
+  config:
+    on-profiles: production
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
     url: jdbc:postgresql://localhost:5432/international-recipes
     username: dbUser
     password: password
-spring:
-   config:
-     on-profiles: production
-   jpa:
-     hibernate:
-       ddl-auto: update
-     show-sql: true
+
 
 server:
   port: 8082
+
