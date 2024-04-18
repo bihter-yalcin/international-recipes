@@ -1,6 +1,5 @@
 package com.playbook.internationalrecipes.repository;
 
-import com.playbook.internationalrecipes.model.Requests.RecipeRequests.RecipeUpdateRequest;
 import com.playbook.internationalrecipes.model.recipe.Recipe;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface RecipeRepository {
 
     List<Recipe> getAllRecipes();
 
-    void updateRecipe(RecipeUpdateRequest updateRequest);
+    void updateRecipe(Recipe recipe);
 
     void deleteRecipe(Long id);
 }

@@ -1,6 +1,5 @@
 package com.playbook.internationalrecipes.repository;
 
-import com.playbook.internationalrecipes.model.Requests.RecipeRequests.RecipeUpdateRequest;
 import com.playbook.internationalrecipes.model.recipe.Recipe;
 import org.springframework.stereotype.Repository;
 
@@ -32,8 +31,8 @@ public class RecipeRepositoryAdapter implements RecipeRepository {
     }
 
     @Override
-    public void updateRecipe(RecipeUpdateRequest updateRequest) {
-
+    public void updateRecipe(Recipe recipe) {
+        recipeRepository.save(recipe);
     }
 
     @Override

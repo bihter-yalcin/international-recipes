@@ -1,6 +1,7 @@
 package com.playbook.internationalrecipes.controller;
 
 import com.playbook.internationalrecipes.model.Requests.RecipeRequests.RecipeCreateRequest;
+import com.playbook.internationalrecipes.model.Requests.RecipeRequests.RecipeUpdateRequest;
 import com.playbook.internationalrecipes.model.recipe.Recipe;
 import com.playbook.internationalrecipes.service.RecipeService;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ public class RecipeController {
     @GetMapping
     public List<Recipe> getAllRecipes() {
         return recipeService.getAllRecipes();
+    }
+
+    @PutMapping("update/{id}")
+    public void updateRecipe(@PathVariable Long id, @RequestBody RecipeUpdateRequest updateRequest){
+        recipeService.updateRecipe(id,updateRequest);
     }
 
 

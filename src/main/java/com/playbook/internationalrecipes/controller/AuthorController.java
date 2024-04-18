@@ -1,5 +1,6 @@
 package com.playbook.internationalrecipes.controller;
 
+import com.playbook.internationalrecipes.model.Requests.AuthorRequests.AuthorUpdateRequest;
 import com.playbook.internationalrecipes.model.author.Author;
 import com.playbook.internationalrecipes.service.AuthorService;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,12 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @PostMapping("/authorCreate")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createAuthor(String name) {
         authorService.createAuthor(name);
     }
+
     @GetMapping("/{id}")
     public Optional<Author> getAuthor(@PathVariable Long id) {
         return authorService.getAuthor(id);
@@ -31,6 +33,11 @@ public class AuthorController {
     @GetMapping
     public List<Author> getAllAuthors() {
         return authorService.getAllAuthors();
+    }
+
+    @PutMapping("update/{id}")
+    public void updateAuthor(@PathVariable Long id, AuthorUpdateRequest updateRequest) {
+        authorService.updateAuthor(id, updateRequest);
     }
 
 
