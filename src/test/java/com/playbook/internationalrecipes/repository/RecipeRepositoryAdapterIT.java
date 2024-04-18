@@ -31,7 +31,6 @@ class RecipeRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Test
     @Order(1)
     void itShouldCreateRecipe() {
-        authorRepositoryAdapter.createAuthor(createTestAuthor1());
 
         var recipe1 = createRecipe1();
         recipeRepositoryAdapter.createRecipe(recipe1);
@@ -45,8 +44,6 @@ class RecipeRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Test
     @Order(2)
     void itShouldRetrieveRecipeById() {
-        authorRepositoryAdapter.createAuthor(createTestAuthor2());
-
         var recipe2 = createRecipe2();
         recipeRepositoryAdapter.createRecipe(recipe2);
 

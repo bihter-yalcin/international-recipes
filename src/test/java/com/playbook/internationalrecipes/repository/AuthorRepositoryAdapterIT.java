@@ -54,34 +54,37 @@ class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Test
     @Order(3)
     void itShouldRetrieveAuthors() {
-        List<Author> result = authorRepositoryAdapter.getAllAuthors();
-        Assertions.assertThat(result.size()).isEqualTo(2);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
-        Assertions.assertThat(result.get(1).getId()).isEqualTo(2L);
+        List<Author> result = authorRepositoryAdapter.getAllAuthors().stream()
+                .sorted(Comparator.comparing(Author::getId))
+                .toList();
+        Assertions.assertThat(result.size()).isEqualTo(3);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
+        Assertions.assertThat(result.get(1).getId()).isEqualTo(3L);
+        Assertions.assertThat(result.get(2).getId()).isEqualTo(4L);
     }
 
     @Test
     @Order(value = 4)
     void itShouldUpdateAuthor() {
         var newAuthorName = "George Orwell";
-        var updatedAuthor = createTestAuthor1();
+        var updatedAuthor = createTestAuthor2();
         updatedAuthor.setName(newAuthorName);
         authorRepositoryAdapter.updateAuthor(updatedAuthor);
         List<Author> result = authorRepositoryAdapter.getAllAuthors().stream()
                 .sorted(Comparator.comparing(Author::getId))
                 .toList();
-        Assertions.assertThat(result.size()).isEqualTo(2);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
+        Assertions.assertThat(result.size()).isEqualTo(3);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
         Assertions.assertThat(result.get(0).getName()).isEqualTo(newAuthorName);
     }
 
     @Test
     @Order(value = 5)
     void itShouldDeleteAuthor() {
-        authorRepositoryAdapter.deleteAuthor(1L);
+        authorRepositoryAdapter.deleteAuthor(2L);
         List<Author> result = authorRepositoryAdapter.getAllAuthors();
-        Assertions.assertThat(result.size()).isEqualTo(1);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
+        Assertions.assertThat(result.size()).isEqualTo(2);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(3L);
     }
 
 }
