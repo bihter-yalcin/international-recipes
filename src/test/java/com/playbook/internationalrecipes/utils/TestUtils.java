@@ -22,6 +22,9 @@ public class TestUtils {
     public static AuthorEntity createTestAuthor4() {
         return AuthorEntity.builder().id(6L).name("Henry").build();
     }
+    public static AuthorEntity createTestAuthor5() {
+        return AuthorEntity.builder().id(7L).name("Milly").build();
+    }
 
     public static RecipeEntity createRecipe1() {
         return RecipeEntity.builder().id(3L).name("Tomato Pasta").country("Italy").description("Wash Tomatos").

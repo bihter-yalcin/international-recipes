@@ -25,8 +25,6 @@ class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
 
     @Autowired
     RecipeRepositoryAdapter recipeRepositoryAdapter;
-    @Autowired
-    AuthorRepositoryAdapter authorRepositoryAdapter;
 
     @Test
     @Order(1)
