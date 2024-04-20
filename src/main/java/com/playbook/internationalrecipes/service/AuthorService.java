@@ -1,11 +1,11 @@
 package com.playbook.internationalrecipes.service;
 
+import com.playbook.internationalrecipes.exceptions.DuplicateAuthorException;
 import com.playbook.internationalrecipes.model.Requests.AuthorRequests.AuthorUpdateRequest;
 import com.playbook.internationalrecipes.model.author.Author;
 import com.playbook.internationalrecipes.repository.AuthorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +24,12 @@ public class AuthorService {
 
     }
 
-    public void createAuthor(String name) {
+    public void createAuthor(String name) throws DuplicateAuthorException {
         try {
             authorRepository.createAuthor(Author.create(name));
-        } catch (DuplicateKeyException e) {
-            //TODO ADD CUSTOM EXCEPTION
-            logger.error("ERROR: An author with the same name already exists!");
+        } catch (Exception e) {
+            logger.error("ERROR: An author with the name: " + name + " already exists!");
+            throw new DuplicateAuthorException("An author with the name: " + name + " already exists!");
         }
     }
 

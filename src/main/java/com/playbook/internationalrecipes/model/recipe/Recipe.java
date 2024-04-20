@@ -20,6 +20,7 @@ import java.util.List;
 public class Recipe {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "recipe_id_seq")
     private Long id;
     private String name;
     private String description;

@@ -19,6 +19,7 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "author_id_seq")
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
 
