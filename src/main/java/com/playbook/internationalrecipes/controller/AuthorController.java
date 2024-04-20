@@ -1,8 +1,8 @@
 package com.playbook.internationalrecipes.controller;
 
 import com.playbook.internationalrecipes.exceptions.DuplicateAuthorException;
-import com.playbook.internationalrecipes.model.Requests.AuthorRequests.AuthorUpdateRequest;
-import com.playbook.internationalrecipes.model.author.Author;
+import com.playbook.internationalrecipes.model.dtos.authorDtos.AuthorDTO;
+import com.playbook.internationalrecipes.model.entities.author.AuthorEntity;
 import com.playbook.internationalrecipes.service.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,25 +20,25 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAuthor(String name) throws DuplicateAuthorException {
-        authorService.createAuthor(name);
+    public void createAuthor(@RequestBody AuthorDTO createDTO) throws DuplicateAuthorException {
+        authorService.createAuthor(createDTO.getName());
     }
 
     @GetMapping("/{id}")
-    public Optional<Author> getAuthor(@PathVariable Long id) {
+    public Optional<AuthorEntity> getAuthor(@PathVariable Long id) {
         return authorService.getAuthor(id);
     }
 
     @GetMapping
-    public List<Author> getAllAuthors() {
+    public List<AuthorEntity> getAllAuthors() {
         return authorService.getAllAuthors();
     }
 
-    @PutMapping("update/{id}")
-    public void updateAuthor(@PathVariable Long id, AuthorUpdateRequest updateRequest) {
-        authorService.updateAuthor(id, updateRequest);
+    @PutMapping("/{id}")
+    public void updateAuthor(@PathVariable Long id, @RequestBody AuthorDTO updateDto) {
+        authorService.updateAuthor(id, updateDto);
     }
 
 

@@ -2,7 +2,7 @@ package com.playbook.internationalrecipes.repository;
 
 
 import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
-import com.playbook.internationalrecipes.model.author.Author;
+import com.playbook.internationalrecipes.model.entities.author.AuthorEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -25,7 +25,7 @@ import static com.playbook.internationalrecipes.utils.TestUtils.createTestAuthor
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
+class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
 
     @Autowired
     AuthorRepositoryAdapter authorRepositoryAdapter;
@@ -36,7 +36,7 @@ class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
     void itShouldCreateAuthor() {
         var author1 = createTestAuthor1();
         authorRepositoryAdapter.createAuthor(author1);
-        Optional<Author> result = authorRepositoryAdapter.findById(author1.getId());
+        Optional<AuthorEntity> result = authorRepositoryAdapter.findById(author1.getId());
         assert result.isPresent();
         assert result.get().equals(author1);
     }
@@ -46,7 +46,7 @@ class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
     void itShouldReturnAuthorById() {
         var author2 = createTestAuthor2();
         authorRepositoryAdapter.createAuthor(author2);
-        Optional<Author> result = authorRepositoryAdapter.findById(author2.getId());
+        Optional<AuthorEntity> result = authorRepositoryAdapter.findById(author2.getId());
         assert result.isPresent();
         assert result.get().equals(author2);
     }
@@ -54,8 +54,8 @@ class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Test
     @Order(3)
     void itShouldRetrieveAuthors() {
-        List<Author> result = authorRepositoryAdapter.getAllAuthors().stream()
-                .sorted(Comparator.comparing(Author::getId))
+        List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors().stream()
+                .sorted(Comparator.comparing(AuthorEntity::getId))
                 .toList();
         Assertions.assertThat(result.size()).isEqualTo(3);
         Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
@@ -70,8 +70,8 @@ class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
         var updatedAuthor = createTestAuthor2();
         updatedAuthor.setName(newAuthorName);
         authorRepositoryAdapter.updateAuthor(updatedAuthor);
-        List<Author> result = authorRepositoryAdapter.getAllAuthors().stream()
-                .sorted(Comparator.comparing(Author::getId))
+        List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors().stream()
+                .sorted(Comparator.comparing(AuthorEntity::getId))
                 .toList();
         Assertions.assertThat(result.size()).isEqualTo(3);
         Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
@@ -82,7 +82,7 @@ class AuthorRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Order(value = 5)
     void itShouldDeleteAuthor() {
         authorRepositoryAdapter.deleteAuthor(2L);
-        List<Author> result = authorRepositoryAdapter.getAllAuthors();
+        List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors();
         Assertions.assertThat(result.size()).isEqualTo(2);
         Assertions.assertThat(result.get(0).getId()).isEqualTo(3L);
     }

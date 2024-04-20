@@ -1,6 +1,6 @@
 package com.playbook.internationalrecipes.repository;
 
-import com.playbook.internationalrecipes.model.recipe.Recipe;
+import com.playbook.internationalrecipes.model.entities.recipe.RecipeEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,23 +16,23 @@ public class RecipeRepositoryAdapter implements RecipeRepository {
     }
 
     @Override
-    public void createRecipe(Recipe recipe) {
-        recipeRepository.save(recipe);
+    public void createRecipe(RecipeEntity recipeEntity) {
+        recipeRepository.save(recipeEntity);
     }
 
     @Override
-    public Optional<Recipe> findById(Long id) {
+    public Optional<RecipeEntity> findById(Long id) {
         return recipeRepository.findById(id).stream().findFirst();
     }
 
     @Override
-    public List<Recipe> getAllRecipes() {
+    public List<RecipeEntity> getAllRecipes() {
         return recipeRepository.findAll();
     }
 
     @Override
-    public void updateRecipe(Recipe recipe) {
-        recipeRepository.save(recipe);
+    public void updateRecipe(RecipeEntity recipeEntity) {
+        recipeRepository.save(recipeEntity);
     }
 
     @Override

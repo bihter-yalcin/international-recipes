@@ -1,19 +1,19 @@
 package com.playbook.internationalrecipes.repository;
 
 
-import com.playbook.internationalrecipes.model.author.Author;
+import com.playbook.internationalrecipes.model.entities.author.AuthorEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface AuthorRepository {
-    void createAuthor(Author author);
+    void createAuthor(AuthorEntity authorEntity);
 
-    Optional<Author> findById(Long id);
+    Optional<AuthorEntity> findById(Long id);
 
-    List<Author> getAllAuthors();
+    List<AuthorEntity> getAllAuthors();
 
-    void updateAuthor(Author author);
+    void updateAuthor(AuthorEntity authorEntity);
 
     void deleteAuthor(Long id);
 

@@ -1,7 +1,7 @@
 package com.playbook.internationalrecipes.repository;
 
 import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
-import com.playbook.internationalrecipes.model.recipe.Recipe;
+import com.playbook.internationalrecipes.model.entities.recipe.RecipeEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -21,7 +21,7 @@ import static com.playbook.internationalrecipes.utils.TestUtils.*;
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RecipeRepositoryAdapterIT extends PostgresTestContainerInitializer {
+class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
 
     @Autowired
     RecipeRepositoryAdapter recipeRepositoryAdapter;
@@ -57,7 +57,7 @@ class RecipeRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Order(3)
     void itShouldRetrieveAllRecipes() {
         var result = recipeRepositoryAdapter.getAllRecipes().stream()
-                .sorted(Comparator.comparing(Recipe::getId))
+                .sorted(Comparator.comparing(RecipeEntity::getId))
                 .toList();
 
         Assertions.assertThat(result.size()).isEqualTo(2);

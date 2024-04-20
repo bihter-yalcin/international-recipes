@@ -1,6 +1,6 @@
 package com.playbook.internationalrecipes.repository;
 
-import com.playbook.internationalrecipes.model.author.Author;
+import com.playbook.internationalrecipes.model.entities.author.AuthorEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,23 +16,23 @@ public class AuthorRepositoryAdapter implements AuthorRepository {
     }
 
     @Override
-    public void createAuthor(Author author) {
-        authorRepository.save(author);
+    public void createAuthor(AuthorEntity authorEntity) {
+        authorRepository.save(authorEntity);
     }
 
     @Override
-    public Optional<Author> findById(Long id) {
+    public Optional<AuthorEntity> findById(Long id) {
         return authorRepository.findById(id).stream().findFirst();
     }
 
     @Override
-    public List<Author> getAllAuthors() {
+    public List<AuthorEntity> getAllAuthors() {
         return authorRepository.findAll();
     }
 
     @Override
-    public void updateAuthor(Author author) {
-        authorRepository.save(author);
+    public void updateAuthor(AuthorEntity authorEntity) {
+        authorRepository.save(authorEntity);
     }
 
     @Override

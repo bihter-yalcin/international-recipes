@@ -1,19 +1,19 @@
 package com.playbook.internationalrecipes.repository;
 
-import com.playbook.internationalrecipes.model.recipe.Recipe;
+import com.playbook.internationalrecipes.model.entities.recipe.RecipeEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RecipeRepository {
 
-    void createRecipe(Recipe recipe);
+    void createRecipe(RecipeEntity recipeEntity);
 
-    Optional<Recipe> findById(Long id);
+    Optional<RecipeEntity> findById(Long id);
 
-    List<Recipe> getAllRecipes();
+    List<RecipeEntity> getAllRecipes();
 
-    void updateRecipe(Recipe recipe);
+    void updateRecipe(RecipeEntity recipeEntity);
 
     void deleteRecipe(Long id);
 }
