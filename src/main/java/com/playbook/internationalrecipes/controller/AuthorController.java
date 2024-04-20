@@ -1,5 +1,6 @@
 package com.playbook.internationalrecipes.controller;
 
+import com.playbook.internationalrecipes.exceptions.DuplicateAuthorException;
 import com.playbook.internationalrecipes.model.Requests.AuthorRequests.AuthorUpdateRequest;
 import com.playbook.internationalrecipes.model.author.Author;
 import com.playbook.internationalrecipes.service.AuthorService;
@@ -21,7 +22,7 @@ public class AuthorController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAuthor(String name) {
+    public void createAuthor(String name) throws DuplicateAuthorException {
         authorService.createAuthor(name);
     }
 
