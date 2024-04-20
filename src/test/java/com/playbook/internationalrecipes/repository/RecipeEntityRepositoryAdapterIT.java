@@ -20,7 +20,7 @@ import static com.playbook.internationalrecipes.utils.TestUtils.*;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
 
     @Autowired
@@ -59,8 +59,8 @@ class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
                 .toList();
 
         Assertions.assertThat(result.size()).isEqualTo(2);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(3L);
-        Assertions.assertThat(result.get(1).getId()).isEqualTo(4L);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
+        Assertions.assertThat(result.get(1).getId()).isEqualTo(2L);
     }
 
     @Test
@@ -76,10 +76,10 @@ class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Test
     @Order(5)
     void itShouldDeleteRecipe() {
-        recipeRepositoryAdapter.deleteRecipe(3L);
+        recipeRepositoryAdapter.deleteRecipe(2L);
         var result = recipeRepositoryAdapter.getAllRecipes();
 
         Assertions.assertThat(result.size()).isEqualTo(1);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(4L);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
     }
 }

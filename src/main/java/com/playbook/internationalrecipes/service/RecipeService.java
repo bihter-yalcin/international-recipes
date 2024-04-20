@@ -19,8 +19,8 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public void createRecipe(RecipeDTO request) {
-        recipeRepository.createRecipe(RecipeEntity.create(request));
+    public RecipeEntity createRecipe(RecipeDTO request) {
+       return recipeRepository.createRecipe(RecipeEntity.create(request));
     }
 
     public Optional<RecipeEntity> getRecipe(Long id) {

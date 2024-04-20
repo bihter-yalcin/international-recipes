@@ -24,7 +24,7 @@ import static com.playbook.internationalrecipes.utils.TestUtils.createTestAuthor
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
 
     @Autowired
@@ -57,10 +57,9 @@ class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
         List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors().stream()
                 .sorted(Comparator.comparing(AuthorEntity::getId))
                 .toList();
-        Assertions.assertThat(result.size()).isEqualTo(3);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
-        Assertions.assertThat(result.get(1).getId()).isEqualTo(3L);
-        Assertions.assertThat(result.get(2).getId()).isEqualTo(4L);
+        Assertions.assertThat(result.size()).isEqualTo(2);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
+        Assertions.assertThat(result.get(1).getId()).isEqualTo(2L);
     }
 
     @Test
@@ -73,9 +72,9 @@ class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
         List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors().stream()
                 .sorted(Comparator.comparing(AuthorEntity::getId))
                 .toList();
-        Assertions.assertThat(result.size()).isEqualTo(3);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(2L);
-        Assertions.assertThat(result.get(0).getName()).isEqualTo(newAuthorName);
+        Assertions.assertThat(result.size()).isEqualTo(2);
+        Assertions.assertThat(result.get(1).getId()).isEqualTo(2L);
+        Assertions.assertThat(result.get(1).getName()).isEqualTo(newAuthorName);
     }
 
     @Test
@@ -83,8 +82,8 @@ class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
     void itShouldDeleteAuthor() {
         authorRepositoryAdapter.deleteAuthor(2L);
         List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors();
-        Assertions.assertThat(result.size()).isEqualTo(2);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(3L);
+        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
     }
 
 }

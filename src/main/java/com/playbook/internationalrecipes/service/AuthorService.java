@@ -24,9 +24,9 @@ public class AuthorService {
 
     }
 
-    public void createAuthor(String name) throws DuplicateAuthorException {
+    public AuthorEntity createAuthor(String name) throws DuplicateAuthorException {
         try {
-            authorRepository.createAuthor(AuthorEntity.create(name));
+           return authorRepository.createAuthor(AuthorEntity.create(name));
         } catch (Exception e) {
             logger.error("ERROR: An author with the name: " + name + " already exists!");
             throw new DuplicateAuthorException("An author with the name: " + name + " already exists!");

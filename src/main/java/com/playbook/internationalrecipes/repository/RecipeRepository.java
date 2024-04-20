@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface RecipeRepository {
 
-    void createRecipe(RecipeEntity recipeEntity);
+    RecipeEntity createRecipe(RecipeEntity recipeEntity);
 
     Optional<RecipeEntity> findById(Long id);
 

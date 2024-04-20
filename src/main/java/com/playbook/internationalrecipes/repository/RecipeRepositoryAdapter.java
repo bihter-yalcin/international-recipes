@@ -16,8 +16,8 @@ public class RecipeRepositoryAdapter implements RecipeRepository {
     }
 
     @Override
-    public void createRecipe(RecipeEntity recipeEntity) {
-        recipeRepository.save(recipeEntity);
+    public RecipeEntity createRecipe(RecipeEntity recipeEntity) {
+       return recipeRepository.save(recipeEntity);
     }
 
     @Override

@@ -16,8 +16,8 @@ public class AuthorRepositoryAdapter implements AuthorRepository {
     }
 
     @Override
-    public void createAuthor(AuthorEntity authorEntity) {
-        authorRepository.save(authorEntity);
+    public AuthorEntity createAuthor(AuthorEntity authorEntity) {
+        return authorRepository.save(authorEntity);
     }
 
     @Override

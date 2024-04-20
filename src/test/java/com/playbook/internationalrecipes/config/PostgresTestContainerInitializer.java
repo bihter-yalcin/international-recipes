@@ -23,6 +23,7 @@ public class PostgresTestContainerInitializer extends PostgreSQLContainer<Postgr
         return container;
     }
 
+    //TODO Find way to create testcontainers with port settings coming from application-test
     @Override
     public void start() {
         super.start();

@@ -19,10 +19,10 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping("/recipeCreate")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRecipe(@RequestBody RecipeDTO recipeDTO) {
-        recipeService.createRecipe(recipeDTO);
+    public RecipeEntity createRecipe(@RequestBody RecipeDTO recipeDTO) {
+        return recipeService.createRecipe(recipeDTO);
     }
 
     @GetMapping("/{id}")

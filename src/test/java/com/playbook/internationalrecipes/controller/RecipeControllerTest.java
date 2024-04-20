@@ -1,7 +1,8 @@
 package com.playbook.internationalrecipes.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.playbook.internationalrecipes.model.dtos.authorDtos.AuthorDTO;
+import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
+import com.playbook.internationalrecipes.model.entities.recipe.RecipeEntity;
 import com.playbook.internationalrecipes.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
-
-
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest
-public class AuthorControllerTest  {
+public class RecipeControllerTest extends PostgresTestContainerInitializer {
 
     //TODO Make Controller Test can be run separately
     private MockMvc mockMvc;
@@ -28,25 +27,25 @@ public class AuthorControllerTest  {
     private ObjectMapper objectMapper;
 
     @Autowired
-    public AuthorControllerTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public RecipeControllerTest(MockMvc mockMvc, ObjectMapper objectMapper) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
 
 
     @Test
-    public void itShouldCreateAuthor() throws Exception {
-        AuthorDTO author = TestUtils.createTestAuthor5();
-        String authorObjectConvertedToString = objectMapper.writeValueAsString(author);
+    public void itShouldCreateRecipe() throws Exception {
+        RecipeEntity recipe = TestUtils.createRecipe3();
+        String recipeObjectConvertedToString = objectMapper.writeValueAsString(recipe);
 
         mockMvc.perform
-                (MockMvcRequestBuilders.post("/authors")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(authorObjectConvertedToString))
+                        (MockMvcRequestBuilders.post("/recipes")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(recipeObjectConvertedToString))
                 .andExpect(
-                MockMvcResultMatchers.status().isCreated()
-        ).andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber()
-                ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("John"));
+                        MockMvcResultMatchers.status().isCreated()
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber()
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Creamy Pasta"));
 
 
     }

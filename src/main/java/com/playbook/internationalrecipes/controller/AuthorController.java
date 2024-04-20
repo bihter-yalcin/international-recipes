@@ -22,8 +22,8 @@ public class AuthorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAuthor(@RequestBody AuthorDTO createDTO) throws DuplicateAuthorException {
-        authorService.createAuthor(createDTO.getName());
+    public AuthorEntity createAuthor(@RequestBody AuthorDTO createDTO) throws DuplicateAuthorException {
+        return authorService.createAuthor(createDTO.getName());
     }
 
     @GetMapping("/{id}")
