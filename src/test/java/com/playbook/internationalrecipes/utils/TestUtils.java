@@ -40,6 +40,7 @@ public class TestUtils {
     }
     public static RecipeEntity updatedRecipe2(){
             return RecipeEntity.builder().id(2L).name("Cheese Pasta").country("Italy").description("Wash Tomatos").
-                prepTime(30).ingredients(List.of("tomato", "butter", "pesto")).authorEntity(createTestAuthor3()).build();
+                prepTime(30).ingredients(List.of("tomato", "butter", "pesto")).authorEntity(null).build();
+    //TODO NULL AUTHOR
     }
 }
