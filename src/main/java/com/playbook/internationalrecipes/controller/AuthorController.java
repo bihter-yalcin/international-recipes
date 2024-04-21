@@ -1,6 +1,5 @@
 package com.playbook.internationalrecipes.controller;
 
-import com.playbook.internationalrecipes.exceptions.DuplicateAuthorException;
 import com.playbook.internationalrecipes.model.dtos.authorDtos.AuthorDTO;
 import com.playbook.internationalrecipes.model.entities.author.AuthorEntity;
 import com.playbook.internationalrecipes.service.AuthorService;
@@ -22,7 +21,7 @@ public class AuthorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthorEntity createAuthor(@RequestBody AuthorDTO createDTO) throws DuplicateAuthorException {
+    public AuthorEntity createAuthor(@RequestBody AuthorDTO createDTO) {
         return authorService.createAuthor(createDTO.getName());
     }
 

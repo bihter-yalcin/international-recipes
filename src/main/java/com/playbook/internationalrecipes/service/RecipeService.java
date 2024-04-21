@@ -1,13 +1,13 @@
 package com.playbook.internationalrecipes.service;
 
 
+import com.playbook.internationalrecipes.exceptions.IdNotFoundException;
 import com.playbook.internationalrecipes.model.dtos.recipeDtos.RecipeDTO;
 import com.playbook.internationalrecipes.model.entities.recipe.RecipeEntity;
 import com.playbook.internationalrecipes.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -20,25 +20,31 @@ public class RecipeService {
     }
 
     public RecipeEntity createRecipe(RecipeDTO request) {
-       return recipeRepository.createRecipe(RecipeEntity.create(request));
+        return recipeRepository.createRecipe(RecipeEntity.create(request));
     }
 
     public Optional<RecipeEntity> getRecipe(Long id) {
-        return recipeRepository.findById(id);
+        Optional<RecipeEntity> optionalRecipe = recipeRepository.findById(id);
+        if (optionalRecipe.isPresent()) {
+            return recipeRepository.findById(id);
+        } else {
+            throw new IdNotFoundException("Recipe with id " + id + " not found");
+        }
     }
 
     public List<RecipeEntity> getAllRecipes() {
         return recipeRepository.getAllRecipes();
     }
+
     public void updateRecipe(Long id, RecipeDTO updateRequest) {
         Optional<RecipeEntity> optionalRecipe = recipeRepository.findById(id);
 
-        if (optionalRecipe.isPresent()){
+        if (optionalRecipe.isPresent()) {
             RecipeEntity recipeEntity = optionalRecipe.get();
-            RecipeEntity updatedRecipeEntity = RecipeEntity.update(recipeEntity,updateRequest);
+            RecipeEntity updatedRecipeEntity = RecipeEntity.update(recipeEntity, updateRequest);
             recipeRepository.updateRecipe(updatedRecipeEntity);
-        }else {
-            throw new NoSuchElementException("Recipe with id " + id + " not found");
+        } else {
+            throw new IdNotFoundException("Recipe with id " + id + " not found");
         }
     }
 

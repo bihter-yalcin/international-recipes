@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
@@ -44,8 +46,8 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
                                 .content(recipeObjectConvertedToString))
                 .andExpect(
                         MockMvcResultMatchers.status().isCreated()
-                ).andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber()
-                ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Creamy Pasta"));
+                ).andExpect(jsonPath("$.id").isNumber()
+                ).andExpect(jsonPath("$.name").value("Creamy Pasta"));
 
 
     }
@@ -58,13 +60,25 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
-                ).andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1)
-                ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Tomato Pasta"));
+                ).andExpect(jsonPath("$.id").value(1)
+                ).andExpect(jsonPath("$.name").value("Tomato Pasta"));
 
 
     }
 
-    //TODO ADD not found case
+    @Test
+    public void itShouldGet404WhenGettingNonExistRecipe() throws Exception {
+
+        mockMvc.perform
+                        (MockMvcRequestBuilders.get("/recipes/555")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().is(404));
+
+        //TODO Add message check
+
+    }
+
 
     @Test
     public void itShouldGet200WhenGettingRecipes() throws Exception {
@@ -74,8 +88,8 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
-                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1)
-                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Tomato Pasta"));
+                ).andExpect(jsonPath("$[0].id").value(1)
+                ).andExpect(jsonPath("$[0].name").value("Tomato Pasta"));
 
 
     }
