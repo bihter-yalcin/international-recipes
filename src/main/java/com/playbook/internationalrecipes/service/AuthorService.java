@@ -26,7 +26,7 @@ public class AuthorService {
 
     public AuthorEntity createAuthor(String name) throws DuplicateAuthorException {
         try {
-           return authorRepository.createAuthor(AuthorEntity.create(name));
+            return authorRepository.createAuthor(AuthorEntity.create(name));
         } catch (Exception e) {
             logger.error("ERROR: An author with the name: " + name + " already exists!");
             throw new DuplicateAuthorException("An author with the name: " + name + " already exists!");
@@ -38,7 +38,10 @@ public class AuthorService {
     }
 
     public Optional<AuthorEntity> getAuthor(Long id) {
-        return authorRepository.findById(id);
+        Optional<AuthorEntity> optionalAuthor = authorRepository.findById(id);
+        if (optionalAuthor.isPresent()) {
+            return optionalAuthor;
+        } else throw new NoSuchElementException("Author with id " + id + " not found");
     }
 
     public void updateAuthor(Long id, AuthorDTO authorUpdateDTO) {

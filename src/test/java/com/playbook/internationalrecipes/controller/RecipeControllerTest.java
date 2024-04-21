@@ -50,5 +50,35 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
 
     }
 
+    @Test
+    public void itShouldGet200WhenGettingRecipeById() throws Exception {
+
+        mockMvc.perform
+                        (MockMvcRequestBuilders.get("/recipes/1")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isOk()
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1)
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Tomato Pasta"));
+
+
+    }
+
+    //TODO ADD not found case
+
+    @Test
+    public void itShouldGet200WhenGettingRecipes() throws Exception {
+
+        mockMvc.perform
+                        (MockMvcRequestBuilders.get("/recipes")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isOk()
+                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1)
+                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Tomato Pasta"));
+
+
+    }
+
 
 }

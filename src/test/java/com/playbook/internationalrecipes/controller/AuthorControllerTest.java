@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
 
+
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -51,5 +52,43 @@ public class AuthorControllerTest  {
 
     }
 
+    @Test
+    public void itShouldGet200WhenGettingAuthorById() throws Exception {
+        mockMvc.perform
+                        (MockMvcRequestBuilders.get("/authors/1")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isOk()
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L)
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("William Shakespeare"));
 
+
+    }
+
+    //TODO Add Not Found case
+    /*
+    @Test
+    public void itShouldGet404WhenGettingNonExistAuthor() throws Exception {
+        mockMvc.perform
+                        (MockMvcRequestBuilders.get("/authors/555")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().is(500)
+                );
+
+    }
+*/
+
+    @Test
+    public void itShouldGet200WhenGettingAuthors() throws Exception {
+        mockMvc.perform
+                        (MockMvcRequestBuilders.get("/authors")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().isOk()
+                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L)
+                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("William Shakespeare"));
+
+
+    }
 }

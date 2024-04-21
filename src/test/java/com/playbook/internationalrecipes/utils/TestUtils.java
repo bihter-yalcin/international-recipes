@@ -25,7 +25,7 @@ public class TestUtils {
     }
 
     public static RecipeEntity createRecipe1() {
-        return RecipeEntity.builder().id(3L).name("Tomato Pasta").country("Italy").description("Wash Tomatos").
+        return RecipeEntity.builder().id(1L).name("Tomato Pasta").country("Italy").description("Wash Tomatos").
                 prepTime(30).ingredients(List.of("tomato", "butter")).authorEntity(createTestAuthor1()).build();
     }
 
@@ -35,7 +35,7 @@ public class TestUtils {
     }
 
     public static RecipeEntity createRecipe3() {
-        return RecipeEntity.builder().id(4L).name("Creamy Pasta").country("Italy").description("Wash Tomatos").
+        return RecipeEntity.builder().id(3L).name("Creamy Pasta").country("Italy").description("Wash Tomatos").
                 prepTime(30).ingredients(List.of("tomato", "butter", "pesto")).authorEntity(createTestAuthor1()).build();
     }
     public static RecipeEntity updatedRecipe2(){
