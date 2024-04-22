@@ -28,7 +28,7 @@ public class RecipeEntity {
     private String country;
     private Integer prepTime;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "author_id")
     private AuthorEntity authorEntity;
 
