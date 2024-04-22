@@ -11,6 +11,9 @@ public class TestUtils {
     public static AuthorEntity createTestAuthor1() {
         return AuthorEntity.builder().id(1L).name("William Shakespeare").build();
     }
+    public static AuthorDTO createTestAuthor1DTO() {
+        return AuthorDTO.builder().id(1L).name("Marry").build();
+    }
 
     public static AuthorEntity createTestAuthor2() {
         return AuthorEntity.builder().id(2L).name("Lev Tolstoy").build();

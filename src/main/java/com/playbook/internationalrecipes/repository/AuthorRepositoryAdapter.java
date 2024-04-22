@@ -40,4 +40,9 @@ public class AuthorRepositoryAdapter implements AuthorRepository {
         authorRepository.deleteById(id);
     }
 
+    @Override
+    public Boolean isExistById(Long id) {
+       return authorRepository.existsById(id);
+    }
+
 }

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -39,26 +38,26 @@ public class AuthorService {
     }
 
     public Optional<AuthorEntity> getAuthor(Long id) {
-        Optional<AuthorEntity> optionalAuthor = authorRepository.findById(id);
-        if (optionalAuthor.isPresent()) {
-            return optionalAuthor;
+        if (checkForIsIdExist(id)) {
+            return authorRepository.findById(id);
         } else throw new IdNotFoundException("Author with id " + id + " not found");
     }
 
     public void updateAuthor(Long id, AuthorDTO authorUpdateDTO) {
-        Optional<AuthorEntity> optionalAuthor = authorRepository.findById(id);
-
-        if (optionalAuthor.isPresent()) {
-            AuthorEntity authorEntity = optionalAuthor.get();
-            AuthorEntity updatedAuthorEntity = AuthorEntity.update(authorEntity, authorUpdateDTO);
+        if (checkForIsIdExist(id)) {
+            AuthorEntity updatedAuthorEntity = AuthorEntity.update(authorRepository.findById(id).get(), authorUpdateDTO);
             authorRepository.updateAuthor(updatedAuthorEntity);
         } else {
-            throw new NoSuchElementException("Author with id " + id + " not found");
+            throw new IdNotFoundException("Author with id " + id + " not found");
         }
     }
 
     public void deleteAuthor(Long id) {
         authorRepository.deleteAuthor(id);
+    }
+
+    private Boolean checkForIsIdExist(Long id) {
+        return authorRepository.isExistById(id);
     }
 
 }

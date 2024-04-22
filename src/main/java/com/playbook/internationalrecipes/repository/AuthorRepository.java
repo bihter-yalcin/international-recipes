@@ -17,4 +17,6 @@ public interface AuthorRepository {
 
     void deleteAuthor(Long id);
 
+    Boolean isExistById(Long id);
+
 }
