@@ -36,12 +36,13 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public void updateRecipe(@PathVariable Long id, @RequestBody RecipeDTO recipeUpdateDTO){
-        recipeService.updateRecipe(id,recipeUpdateDTO);
+    public void updateRecipe(@PathVariable Long id, @RequestBody RecipeDTO recipeUpdateDTO) {
+        recipeService.updateRecipe(id, recipeUpdateDTO);
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
     public void deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
     }
