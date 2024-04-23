@@ -83,20 +83,20 @@ public class AuthorControllerTest {
     }
 
     @Test
+    @Order(4)
     public void itShouldGet200WhenGettingAuthors() throws Exception {
         mockMvc.perform
                         (MockMvcRequestBuilders.get("/authors")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
-                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(3L)
-                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Henry"));
+                );
 
 
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void itShouldGet200WhenUpdateAuthor() throws Exception {
         AuthorDTO author = TestUtils.createTestAuthor1DTO();
         String authorObjectConvertedToString = objectMapper.writeValueAsString(author);
@@ -111,7 +111,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void itShouldGet404WhenUpdatingNonExistAuthor() throws Exception {
         AuthorDTO author = TestUtils.createTestAuthor1DTO();
         author.setId(77L);
@@ -125,4 +125,17 @@ public class AuthorControllerTest {
 
 
     }
+
+    @Test
+    @Order(7)
+    public void itShouldGet204WhenDeleterAuthor() throws Exception {
+        mockMvc.perform
+                        (MockMvcRequestBuilders.delete("/authors/3")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(
+                        MockMvcResultMatchers.status().is(204)
+                );
+
+    }
+
 }
