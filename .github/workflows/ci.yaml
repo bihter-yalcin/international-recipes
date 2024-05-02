@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    name: Build International Recipes Project
     runs-on: ubuntu-latest
 
     steps:
@@ -19,8 +20,10 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
-      - name: Run integration tests
-        run: mvn verify
+      - name: Unit tests
+        run: mvn -B test --file pom.xml
 
       - name: Build with Maven
-        run: mvn clean package
+        run:
+          mvn clean
+          mvn -B package --file pom.xml
