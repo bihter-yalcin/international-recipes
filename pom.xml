@@ -103,10 +103,8 @@
                     <excludes>
                     </excludes>
                     <includes>
-                        <include>AuthorControllerIntegrationTest.java</include>
-                        <include>RecipeControllerIntegrationTest.java</include>
-                        <include>RecipeEntityRepositoryAdapterIntegrationTest.java</include>
-                        <include>AuthorEntityRepositoryAdapterIntegrationTest.java</include>
+                        <include>**/*IntegrationTest.java</include>
+                        <include>**/*Test.java</include>
                     </includes>
                 </configuration>
             </plugin>
