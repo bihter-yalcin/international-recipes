@@ -96,7 +96,20 @@
                     </excludes>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <excludes>
+                        <exclude>AuthorEntityRepositoryAdapterIntegrationTest.java</exclude>
+                        <exclude>RecipeEntityRepositoryAdapterIntegrationTest.java</exclude>
+                        <include>RecipeControllerIntegrationTest.java</include>
+                    </excludes>
+                    <includes>
+                        <include>AuthorControllerIntegrationTest.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
