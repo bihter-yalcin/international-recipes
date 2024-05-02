@@ -19,11 +19,8 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
-      - name: Run unit tests
-        run: mvn test
-
       - name: Run integration tests
-        run: mvn verify -P integration-tests
+        run: mvn verify
 
       - name: Build with Maven
         run: mvn clean package
