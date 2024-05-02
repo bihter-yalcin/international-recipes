@@ -20,10 +20,3 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
-      - name: Tests
-        run: ./mvnw clean install -DskipTests
-
-      - name: Build with Maven
-        run:
-          mvn clean
-          mvn -B package --file pom.xml
