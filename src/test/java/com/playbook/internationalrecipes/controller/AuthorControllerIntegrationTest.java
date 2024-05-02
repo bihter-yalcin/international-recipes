@@ -1,43 +1,49 @@
 package com.playbook.internationalrecipes.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
 import com.playbook.internationalrecipes.model.dtos.authorDtos.AuthorDTO;
+import com.playbook.internationalrecipes.service.AuthorService;
 import com.playbook.internationalrecipes.utils.TestUtils;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static com.playbook.internationalrecipes.utils.TestUtils.createTestAuthor1;
+
 
 @ActiveProfiles("test")
+@ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
-public class AuthorControllerTest {
+@Transactional
+public class AuthorControllerIntegrationTest extends PostgresTestContainerInitializer {
 
-    //TODO Make Controller Test can be run separately
     private MockMvc mockMvc;
 
 
     private ObjectMapper objectMapper;
 
+    private AuthorService authorService;
+
     @Autowired
-    public AuthorControllerTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public AuthorControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper, AuthorService authorService) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
+        this.authorService = authorService;
     }
 
 
     @Test
-    @Order(1)
     public void itShouldCreateAuthor() throws Exception {
         AuthorDTO author = TestUtils.createTestAuthor5();
         String authorObjectConvertedToString = objectMapper.writeValueAsString(author);
@@ -56,14 +62,15 @@ public class AuthorControllerTest {
     }
 
     @Test
-    @Order(2)
     public void itShouldGet200WhenGettingAuthorById() throws Exception {
+       var author = authorService.createAuthor(createTestAuthor1().getName());
+       var id = author.getId().toString();
         mockMvc.perform
-                        (MockMvcRequestBuilders.get("/authors/1")
+                        (MockMvcRequestBuilders.get("/authors/"+id)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
-                ).andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L)
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.id").value(author.getId())
                 ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("William Shakespeare"));
 
 
@@ -71,7 +78,6 @@ public class AuthorControllerTest {
 
 
     @Test
-    @Order(3)
     public void itShouldGet404WhenGettingNonExistAuthor() throws Exception {
         mockMvc.perform
                         (MockMvcRequestBuilders.get("/authors/555")
@@ -83,25 +89,25 @@ public class AuthorControllerTest {
     }
 
     @Test
-    @Order(4)
     public void itShouldGet200WhenGettingAuthors() throws Exception {
+        var author = authorService.createAuthor(createTestAuthor1().getName());
+        var id = author.getId().toString();
         mockMvc.perform
                         (MockMvcRequestBuilders.get("/authors")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
-                );
+                ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(author.getId()));;
 
 
     }
 
     @Test
-    @Order(5)
     public void itShouldGet200WhenUpdateAuthor() throws Exception {
-        AuthorDTO author = TestUtils.createTestAuthor1DTO();
-        String authorObjectConvertedToString = objectMapper.writeValueAsString(author);
+        var authorWillBeUpdated = authorService.createAuthor(createTestAuthor1().getName());
+        String authorObjectConvertedToString = objectMapper.writeValueAsString(authorWillBeUpdated);
         mockMvc.perform
-                        (MockMvcRequestBuilders.put("/authors/1")
+                        (MockMvcRequestBuilders.put("/authors/"+authorWillBeUpdated.getId().toString())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(authorObjectConvertedToString))
                 .andExpect(
@@ -111,7 +117,6 @@ public class AuthorControllerTest {
     }
 
     @Test
-    @Order(6)
     public void itShouldGet404WhenUpdatingNonExistAuthor() throws Exception {
         AuthorDTO author = TestUtils.createTestAuthor1DTO();
         author.setId(77L);
@@ -126,11 +131,12 @@ public class AuthorControllerTest {
 
     }
 
+
     @Test
-    @Order(7)
     public void itShouldGet204WhenDeleterAuthor() throws Exception {
+        authorService.createAuthor(createTestAuthor1().getName());
         mockMvc.perform
-                        (MockMvcRequestBuilders.delete("/authors/3")
+                        (MockMvcRequestBuilders.delete("/authors/1")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().is(204)

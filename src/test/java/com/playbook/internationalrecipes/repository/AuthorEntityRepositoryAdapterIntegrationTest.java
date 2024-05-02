@@ -3,11 +3,9 @@ package com.playbook.internationalrecipes.repository;
 
 import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
 import com.playbook.internationalrecipes.model.entities.author.AuthorEntity;
+import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,16 +21,15 @@ import static com.playbook.internationalrecipes.utils.TestUtils.createTestAuthor
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
+@Transactional
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class AuthorEntityRepositoryAdapterIntegrationTest extends PostgresTestContainerInitializer {
 
     @Autowired
     AuthorRepositoryAdapter authorRepositoryAdapter;
 
 
     @Test
-    @Order(1)
     void itShouldCreateAuthor() {
         var author1 = createTestAuthor1();
         authorRepositoryAdapter.createAuthor(author1);
@@ -42,7 +39,6 @@ class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
     }
 
     @Test
-    @Order(2)
     void itShouldReturnAuthorById() {
         var author2 = createTestAuthor2();
         authorRepositoryAdapter.createAuthor(author2);
@@ -52,38 +48,46 @@ class AuthorEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
     }
 
     @Test
-    @Order(3)
     void itShouldRetrieveAuthors() {
+        var author1 = createTestAuthor1();
+        var firstAuthor = authorRepositoryAdapter.createAuthor(author1);
+        var author2 = createTestAuthor2();
+        var secondAuthor = authorRepositoryAdapter.createAuthor(author2);
+
         List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors().stream()
                 .sorted(Comparator.comparing(AuthorEntity::getId))
                 .toList();
         Assertions.assertThat(result.size()).isEqualTo(2);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
-        Assertions.assertThat(result.get(1).getId()).isEqualTo(2L);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(firstAuthor.getId());
+        Assertions.assertThat(result.get(1).getId()).isEqualTo(secondAuthor.getId());
     }
 
     @Test
-    @Order(value = 4)
     void itShouldUpdateAuthor() {
+        var author2 = createTestAuthor2();
+        var secondAuthor = authorRepositoryAdapter.createAuthor(author2);
+
         var newAuthorName = "George Orwell";
-        var updatedAuthor = createTestAuthor2();
-        updatedAuthor.setName(newAuthorName);
-        authorRepositoryAdapter.updateAuthor(updatedAuthor);
+         secondAuthor.setName(newAuthorName);
+
+        authorRepositoryAdapter.updateAuthor(secondAuthor);
         List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors().stream()
                 .sorted(Comparator.comparing(AuthorEntity::getId))
                 .toList();
-        Assertions.assertThat(result.size()).isEqualTo(2);
-        Assertions.assertThat(result.get(1).getId()).isEqualTo(2L);
-        Assertions.assertThat(result.get(1).getName()).isEqualTo(newAuthorName);
+
+        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(secondAuthor.getId());
+        Assertions.assertThat(result.get(0).getName()).isEqualTo(newAuthorName);
     }
 
     @Test
-    @Order(value = 5)
     void itShouldDeleteAuthor() {
-        authorRepositoryAdapter.deleteAuthor(2L);
+        var author1 = createTestAuthor1();
+        var firstAuthor = authorRepositoryAdapter.createAuthor(author1);
+
+        authorRepositoryAdapter.deleteAuthor(author1.getId());
         List<AuthorEntity> result = authorRepositoryAdapter.getAllAuthors();
-        Assertions.assertThat(result.size()).isEqualTo(1);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
+        Assertions.assertThat(result.size()).isEqualTo(0);
     }
 
 }

@@ -2,11 +2,10 @@ package com.playbook.internationalrecipes.repository;
 
 import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
 import com.playbook.internationalrecipes.model.entities.recipe.RecipeEntity;
+import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,15 +18,14 @@ import static com.playbook.internationalrecipes.utils.TestUtils.*;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
+@Transactional
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class RecipeEntityRepositoryAdapterIntegrationTest extends PostgresTestContainerInitializer {
 
     @Autowired
     RecipeRepositoryAdapter recipeRepositoryAdapter;
 
     @Test
-    @Order(1)
     void itShouldCreateRecipe() {
 
         var recipe1 = createRecipe1();
@@ -40,7 +38,6 @@ class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
     }
 
     @Test
-    @Order(2)
     void itShouldRetrieveRecipeById() {
         var recipe2 = createRecipe2();
         recipeRepositoryAdapter.createRecipe(recipe2);
@@ -54,18 +51,26 @@ class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Test
     @Order(3)
     void itShouldRetrieveAllRecipes() {
+        var recipe1 = createRecipe1();
+        var firstRecipe = recipeRepositoryAdapter.createRecipe(recipe1);
+        var recipe2 = createRecipe2();
+        var secondRecipe = recipeRepositoryAdapter.createRecipe(recipe2);
+
         var result = recipeRepositoryAdapter.getAllRecipes().stream()
                 .sorted(Comparator.comparing(RecipeEntity::getId))
                 .toList();
 
         Assertions.assertThat(result.size()).isEqualTo(2);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
-        Assertions.assertThat(result.get(1).getId()).isEqualTo(2L);
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(firstRecipe.getId());
+        Assertions.assertThat(result.get(1).getId()).isEqualTo(secondRecipe.getId());
     }
 
     @Test
     @Order(4)
     void itShouldUpdateRecipe() {
+        var recipe2 = createRecipe2();
+        recipeRepositoryAdapter.createRecipe(recipe2);
+
         var updatedRecipe = updatedRecipe2();
         recipeRepositoryAdapter.updateRecipe(updatedRecipe);
         var result = recipeRepositoryAdapter.findById(updatedRecipe.getId());
@@ -76,10 +81,12 @@ class RecipeEntityRepositoryAdapterIT extends PostgresTestContainerInitializer {
     @Test
     @Order(5)
     void itShouldDeleteRecipe() {
-        recipeRepositoryAdapter.deleteRecipe(2L);
+        var recipe2 = createRecipe2();
+        var recipe = recipeRepositoryAdapter.createRecipe(recipe2);
+
+        recipeRepositoryAdapter.deleteRecipe(recipe.getId());
         var result = recipeRepositoryAdapter.getAllRecipes();
 
-        Assertions.assertThat(result.size()).isEqualTo(1);
-        Assertions.assertThat(result.get(0).getId()).isEqualTo(1L);
+        Assertions.assertThat(result.size()).isEqualTo(0);
     }
 }

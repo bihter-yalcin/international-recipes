@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.playbook.internationalrecipes.config.PostgresTestContainerInitializer;
 import com.playbook.internationalrecipes.model.dtos.recipeDtos.RecipeDTO;
 import com.playbook.internationalrecipes.model.entities.recipe.RecipeEntity;
+import com.playbook.internationalrecipes.service.RecipeService;
 import com.playbook.internationalrecipes.utils.TestUtils;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,25 +22,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest
-public class RecipeControllerTest extends PostgresTestContainerInitializer {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
+public class RecipeControllerIntegrationTest extends PostgresTestContainerInitializer {
 
-    //TODO Make Controller Test can be run separately
     private MockMvc mockMvc;
 
 
     private ObjectMapper objectMapper;
 
+    private RecipeService recipeService;
+
     @Autowired
-    public RecipeControllerTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public RecipeControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper,RecipeService recipeService) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
+        this.recipeService = recipeService;
     }
 
 
     @Test
-    @Order(1)
     public void itShouldCreateRecipe() throws Exception {
         RecipeEntity recipe = TestUtils.createRecipe3();
         String recipeObjectConvertedToString = objectMapper.writeValueAsString(recipe);
@@ -59,22 +59,21 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
     }
 
     @Test
-    @Order(2)
     public void itShouldGet200WhenGettingRecipeById() throws Exception {
-
+        RecipeDTO recipe = TestUtils.createRecipe1Dto();
+        var createdRecipe = recipeService.createRecipe(recipe);
         mockMvc.perform
-                        (MockMvcRequestBuilders.get("/recipes/1")
+                        (MockMvcRequestBuilders.get("/recipes/"+createdRecipe.getId().toString())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
-                ).andExpect(jsonPath("$.id").value(1)
-                ).andExpect(jsonPath("$.name").value("Tomato Pasta"));
+                ).andExpect(jsonPath("$.id").value(createdRecipe.getId())
+                ).andExpect(jsonPath("$.name").value("Spicy Pasta"));
 
 
     }
 
     @Test
-    @Order(3)
     public void itShouldGet404WhenGettingNonExistRecipe() throws Exception {
 
         mockMvc.perform
@@ -89,27 +88,28 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
 
 
     @Test
-    @Order(4)
     public void itShouldGet200WhenGettingRecipes() throws Exception {
-
+        RecipeDTO recipe = TestUtils.createRecipe1Dto();
+        var createdRecipe = recipeService.createRecipe(recipe);
         mockMvc.perform
                         (MockMvcRequestBuilders.get("/recipes")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().isOk()
-                ).andExpect(jsonPath("$[0].id").value(1)
-                ).andExpect(jsonPath("$[0].name").value("Tomato Pasta"));
+                ).andExpect(jsonPath("$[0].id").value(createdRecipe.getId())
+                ).andExpect(jsonPath("$[0].name").value("Spicy Pasta"));
 
 
     }
 
     @Test
-    @Order(5)
     public void itShouldGet200WhenUpdateRecipe() throws Exception {
         RecipeDTO recipe = TestUtils.createRecipe1Dto();
+        var createdRecipe = recipeService.createRecipe(recipe);
+
         String recipeObjectConvertedToString = objectMapper.writeValueAsString(recipe);
         mockMvc.perform
-                        (MockMvcRequestBuilders.put("/recipes/1")
+                        (MockMvcRequestBuilders.put("/recipes/"+createdRecipe.getId().toString())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(recipeObjectConvertedToString))
                 .andExpect(
@@ -119,7 +119,6 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
     }
 
     @Test
-    @Order(6)
     public void itShouldGet404WhenUpdatingNonExistRecipe() throws Exception {
         RecipeDTO recipe = TestUtils.createRecipe1Dto();
         recipe.setId(77L);
@@ -135,10 +134,11 @@ public class RecipeControllerTest extends PostgresTestContainerInitializer {
     }
 
     @Test
-    @Order(7)
     public void itShouldGet204WhenDeleterRecipe() throws Exception {
+        RecipeDTO recipe = TestUtils.createRecipe1Dto();
+        var createdRecipe = recipeService.createRecipe(recipe);
         mockMvc.perform
-                        (MockMvcRequestBuilders.delete("/recipes/1")
+                        (MockMvcRequestBuilders.delete("/recipes/"+createdRecipe.getId().toString())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(
                         MockMvcResultMatchers.status().is(204)
