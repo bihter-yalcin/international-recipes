@@ -20,3 +20,7 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
+      - name: Tests
+        run: ./mvnw clean install
+
+
