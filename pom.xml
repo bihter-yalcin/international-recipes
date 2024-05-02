@@ -101,12 +101,12 @@
                 <version>3.2.5</version>
                 <configuration>
                     <excludes>
-                        <exclude>AuthorEntityRepositoryAdapterIntegrationTest.java</exclude>
-                        <exclude>RecipeEntityRepositoryAdapterIntegrationTest.java</exclude>
-                        <include>RecipeControllerIntegrationTest.java</include>
                     </excludes>
                     <includes>
                         <include>AuthorControllerIntegrationTest.java</include>
+                        <include>RecipeControllerIntegrationTest.java</include>
+                        <include>RecipeEntityRepositoryAdapterIntegrationTest.java</include>
+                        <include>AuthorEntityRepositoryAdapterIntegrationTest.java</include>
                     </includes>
                 </configuration>
             </plugin>
