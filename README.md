@@ -1,8 +1,8 @@
 # international-recipes API
- 
-![Orta IMG_0340](https://github.com/bihter-yalcin/international-recipes/assets/76825689/ac15a47b-a489-4531-97d9-8b800dc49058)
 
-* A platform where everyone in the world can share their recipes 
+ * A platform where everyone in the world can share their recipes
+   
+![Orta IMG_0340](https://github.com/bihter-yalcin/international-recipes/assets/76825689/ac15a47b-a489-4531-97d9-8b800dc49058)
 
 Functionalities:
 * CRUD recipes
